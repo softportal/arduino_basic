@@ -1,0 +1,22 @@
+#include <SPI.h>
+#include <RFID.h>
+#define SS_PIN 9 //Declaramos el pin SDA del Arduino
+#define RST_PIN 8 //Declaramos el pin RST del Arduino
+RFID rfid(SS_PIN, RST_PIN); //Inicialización del objeto RFID
+void setup() {
+Serial.begin(9600);
+SPI.begin();
+rfid.init();
+rfid.readCardSerial();
+} 
+void loop() {
+if (rfid.isCard()){
+  for (int i = 0; i < sizeof(rfid.serNum); i++)
+  {
+    Serial.print(rfid.serNum[i]);
+  } 
+  Serial.println();
+  
+}
+rfid.halt();
+}
